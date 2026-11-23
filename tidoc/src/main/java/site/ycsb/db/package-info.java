@@ -14,5 +14,5 @@
  * LICENSE file.
  */
 
-/** MongoDB wire protocol binding for EloqDoc. */
+/** MongoDB wire protocol binding for TiDoc. */
 package site.ycsb.db;

@@ -111,7 +111,7 @@ LICENSE file.
     </dependency>
     <dependency>
       <groupId>site.ycsb</groupId>
-      <artifactId>eloqdoc-binding</artifactId>
+      <artifactId>tidoc-binding</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

@@ -174,7 +174,7 @@ LICENSE file.
     <module>dynamodb</module>
     <module>elasticsearch</module>
     <module>elasticsearch5</module>
-    <module>eloqdoc</module>
+    <module>tidoc</module>
     <module>foundationdb</module>
     <module>geode</module>
     <module>googlebigtable</module>

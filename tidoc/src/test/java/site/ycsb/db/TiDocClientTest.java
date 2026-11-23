@@ -27,10 +27,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class EloqDocClientTest {
+public class TiDocClientTest {
   @Test
   public void retriesEloqOutOfMemory() throws Exception {
-    EloqDocClient client = new EloqDocClient(1000, 0);
+    TiDocClient client = new TiDocClient(1000, 0);
     AtomicInteger calls = new AtomicInteger();
     String result = client.execute(() -> {
       if (calls.incrementAndGet() < 3) {
@@ -45,7 +45,7 @@ public class EloqDocClientTest {
   @Test
   public void retriesReadWriteAndWriteConflicts() throws Exception {
     for (int code : new int[] {246, 112}) {
-      EloqDocClient client = new EloqDocClient(1000, 0);
+      TiDocClient client = new TiDocClient(1000, 0);
       AtomicInteger calls = new AtomicInteger();
       assertEquals("ok", client.execute(() -> {
         if (calls.incrementAndGet() == 1) {
@@ -64,7 +64,7 @@ public class EloqDocClientTest {
         new MongoException(146, "generic aggregation memory limit"),
         new MongoException(246, "generic snapshot unavailable"),
         new MongoException(246, "TxError[12]: unrelated")}) {
-      EloqDocClient client = new EloqDocClient(1000, 0);
+      TiDocClient client = new TiDocClient(1000, 0);
       AtomicInteger calls = new AtomicInteger();
       try {
         client.execute(() -> {
@@ -81,7 +81,7 @@ public class EloqDocClientTest {
 
   @Test
   public void stopsAtRetryTimeout() throws Exception {
-    EloqDocClient client = new EloqDocClient(1, 0);
+    TiDocClient client = new TiDocClient(1, 0);
     AtomicInteger calls = new AtomicInteger();
     try {
       client.execute(() -> {
@@ -97,7 +97,7 @@ public class EloqDocClientTest {
 
   @Test
   public void rejectsUnsafeBatchSize() throws Exception {
-    EloqDocClient client = new EloqDocClient();
+    TiDocClient client = new TiDocClient();
     Properties props = new Properties();
     props.setProperty("batchsize", "10");
     client.setProperties(props);
@@ -105,7 +105,7 @@ public class EloqDocClientTest {
       client.init();
       fail("Expected DBException");
     } catch (DBException expected) {
-      assertEquals("EloqDoc requires batchsize=1 for safe retries",
+      assertEquals("TiDoc requires batchsize=1 for safe retries",
           expected.getMessage());
     }
   }

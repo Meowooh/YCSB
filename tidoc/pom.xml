@@ -24,8 +24,8 @@ LICENSE file.
     <version>0.18.0-SNAPSHOT</version>
     <relativePath>../binding-parent</relativePath>
   </parent>
-  <artifactId>eloqdoc-binding</artifactId>
-  <name>EloqDoc Binding</name>
+  <artifactId>tidoc-binding</artifactId>
+  <name>TiDoc Binding</name>
   <dependencies>
     <dependency>
       <groupId>site.ycsb</groupId>

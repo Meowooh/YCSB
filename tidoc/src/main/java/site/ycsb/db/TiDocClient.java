@@ -23,35 +23,35 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-/** MongoDB-compatible binding with EloqDoc transaction retry semantics. */
-public class EloqDocClient extends MongoDbClient {
+/** MongoDB-compatible binding with TiDoc transaction retry semantics. */
+public class TiDocClient extends MongoDbClient {
   private long retryTimeoutMs = 600000;
   private long initialDelayMs = 30000;
 
-  EloqDocClient(long retryTimeoutMs, long initialDelayMs) {
+  TiDocClient(long retryTimeoutMs, long initialDelayMs) {
     this.retryTimeoutMs = retryTimeoutMs;
     this.initialDelayMs = initialDelayMs;
   }
 
-  public EloqDocClient() {
+  public TiDocClient() {
   }
 
   @Override
   public void init() throws DBException {
     if (!"1".equals(getProperties().getProperty("batchsize", "1"))) {
-      throw new DBException("EloqDoc requires batchsize=1 for safe retries");
+      throw new DBException("TiDoc requires batchsize=1 for safe retries");
     }
     try {
       retryTimeoutMs = Long.parseLong(getProperties().getProperty(
-          "eloqdoc.retryTimeoutMs", "600000"));
+          "tidoc.retryTimeoutMs", "600000"));
       initialDelayMs = Long.parseLong(getProperties().getProperty(
-          "eloqdoc.retryDelayMs", "30000"));
+          "tidoc.retryDelayMs", "30000"));
     } catch (NumberFormatException e) {
-      throw new DBException("Invalid EloqDoc retry setting", e);
+      throw new DBException("Invalid TiDoc retry setting", e);
     }
     if (retryTimeoutMs <= 0 || initialDelayMs < 0 || initialDelayMs > 30000) {
-      throw new DBException("eloqdoc.retryTimeoutMs must be positive and "
-          + "eloqdoc.retryDelayMs must be between 0 and 30000");
+      throw new DBException("tidoc.retryTimeoutMs must be positive and "
+          + "tidoc.retryDelayMs must be between 0 and 30000");
     }
     super.init();
   }
@@ -74,7 +74,7 @@ public class EloqDocClient extends MongoDbClient {
         retries++;
         long delayMs = retryDelayMs(e.getCode(), retries);
         if (retries == 1 || retries % 10 == 0) {
-          System.err.println("EloqDoc retry " + retries + " in " + delayMs
+          System.err.println("TiDoc retry " + retries + " in " + delayMs
               + " ms after Mongo error "
               + e.getCode() + ": " + e.getMessage());
         }
